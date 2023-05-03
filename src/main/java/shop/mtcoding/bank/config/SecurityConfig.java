@@ -1,5 +1,6 @@
 package shop.mtcoding.bank.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
@@ -12,6 +13,8 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import shop.mtcoding.bank.domain.user.UserEnum;
+import shop.mtcoding.bank.dto.ResponseDto;
+import shop.mtcoding.bank.util.CustomResponseUtil;
 
 @Configuration
 public class SecurityConfig {
@@ -38,6 +41,12 @@ public class SecurityConfig {
         http.formLogin().disable();
         //  브라우저가 팝업창을 이용해서 사용자 인증 진행 X
         http.httpBasic().disable();
+
+        //  Exception 가로채기
+        http.exceptionHandling().authenticationEntryPoint((request, response, authException) -> {
+            CustomResponseUtil.unAuthentication(response, "로그인을 진행해 주세요");
+        });
+
         http.authorizeRequests()
             .antMatchers("/api/s/**").authenticated()
             .antMatchers("/api/admin/**").hasRole("" + UserEnum.ADMIN)
