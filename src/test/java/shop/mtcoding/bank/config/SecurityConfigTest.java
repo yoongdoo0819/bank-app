@@ -7,7 +7,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-import shop.mtcoding.bank.domain.account.Account;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;

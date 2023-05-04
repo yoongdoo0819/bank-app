@@ -1,12 +1,9 @@
 package shop.mtcoding.bank.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import shop.mtcoding.bank.dto.ResponseDto;
-
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletResponse;
 
 public class CustomResponseUtil {
