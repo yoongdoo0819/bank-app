@@ -50,6 +50,7 @@ public class SecurityConfig {
         http.cors().configurationSource(configurationSource());
 
         //  jSessionId 서버에서 관리 안 함
+        //  JwtAuthenticationFilter & JwtAuthorizationFilter 호출 시 Authentication에 담기는 LoginUser를 유지하지 않음
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         //  react, 앱으로 요청
         http.formLogin().disable();

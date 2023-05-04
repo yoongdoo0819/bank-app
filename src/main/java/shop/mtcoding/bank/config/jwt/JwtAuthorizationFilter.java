@@ -29,7 +29,10 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
             String token = request.getHeader(JwtVO.HEADER).replace(JwtVO.TOKEN_PREFIX, "");
             LoginUser loginUser = JwtProcess.verify(token);
 
-            Authentication authentication = new UsernamePasswordAuthenticationToken(loginUser, null, loginUser.getAuthorities());
+            // JWT를 쓴다 하더라도, 컨트롤러 진입을 하면 시큐리티의 권한체크, 인증체크의 도움을 받을 수 있도록 세션을 생성
+            // 이 세션의 유효기간은 request 받고 response 시점에 같이 종료
+            Authentication authentication = new UsernamePasswordAuthenticationToken(loginUser, null,
+                    loginUser.getAuthorities()); // id, role만 존재 (인증 및 권한 체크만을 위해)
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
         }
