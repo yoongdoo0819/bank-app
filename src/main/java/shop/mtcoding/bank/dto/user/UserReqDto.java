@@ -7,12 +7,15 @@ import shop.mtcoding.bank.domain.user.User;
 import shop.mtcoding.bank.domain.user.UserEnum;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
 
 public class UserReqDto {
 
     @Setter
     @Getter
     public static class JoinReqDto {
+
+        @Pattern(regexp = "", message = "영문/숫자 2~20자 이내로 작성해주세요")
         @NotEmpty // null이거나 공백일 수 없음
         private String username;
         @NotEmpty
