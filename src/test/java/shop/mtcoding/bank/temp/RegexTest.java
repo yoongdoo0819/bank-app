@@ -63,4 +63,25 @@ public class RegexTest {
         boolean result5 = Pattern.matches("^[a-zA-Z]{2,4}$", value5);
         System.out.println("result = " + result5);
     }
+
+    @Test
+    public void user_username_test() throws Exception {
+        String username = "ssar";
+        boolean result = Pattern.matches("^[a-zA-Z0-9]{2,20}$", username);
+        System.out.println("result = " + result);
+    }
+
+    @Test
+    public void user_fullname_test() throws Exception {
+        String fullname = "쌀";
+        boolean result = Pattern.matches("^[a-zA-Z가-힣]{1,20}$", fullname);
+        System.out.println("result = " + result);
+    }
+
+    @Test
+    public void user_email_test() throws Exception {
+        String email = "ssar@nate.com";
+        boolean result = Pattern.matches("^[a-zA-Z0-9]{2,10}+@[a-zA-Z0-9]{2,6}\\.[a-zA-Z]{2,3}$", email);
+        System.out.println("result = " + result);
+    }
 }
