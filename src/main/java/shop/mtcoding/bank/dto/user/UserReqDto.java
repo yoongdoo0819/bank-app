@@ -12,6 +12,15 @@ import javax.validation.constraints.Pattern;
 
 public class UserReqDto {
 
+    @Getter
+    @Setter
+    public static class LoginReqDto {
+
+        // 시큐리티 필터는 컨트롤러에 도달하기 전 실행되는 Dto이므로, 아래 필드들은 @Valid 체크를 못함
+        private String username;
+        private String password;
+    }
+
     @Setter
     @Getter
     public static class JoinReqDto {
