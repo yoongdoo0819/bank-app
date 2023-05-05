@@ -14,10 +14,17 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Transactional;
 import shop.mtcoding.bank.config.dummy.DummyObject;
+import shop.mtcoding.bank.domain.account.Account;
+import shop.mtcoding.bank.domain.account.AccountRepository;
 import shop.mtcoding.bank.domain.user.User;
 import shop.mtcoding.bank.domain.user.UserRepository;
 import shop.mtcoding.bank.dto.account.AccountReqDto.AccountSaveReqDto;
+import shop.mtcoding.bank.handler.ex.CustomApiException;
 
+import javax.persistence.EntityManager;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -33,10 +40,19 @@ class AccountControllerTest extends DummyObject {
     private ObjectMapper om;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private AccountRepository accountRepository;
+    @Autowired
+    private EntityManager em;
 
     @BeforeEach
     public void setUp() {
+
         User ssar = userRepository.save(newUser("ssar", "쌀"));
+        User cos = userRepository.save(newUser("cos", "코스"));
+        Account ssarAccount1 = accountRepository.save(newAccount(1111L, ssar));
+        Account cosAccount1 = accountRepository.save(newAccount(2222L, cos));
+        em.clear();
     }
 
     // setupBefore=TEST_METHOD (setUp 메서드 실행 전에 수행)
@@ -58,5 +74,30 @@ class AccountControllerTest extends DummyObject {
 
         // then
         resultActions.andExpect(status().isCreated());
+    }
+
+    /**
+     * 테스트를 위해 @beforeEach에서 repository.save() 하는 엔티티들은 전부 영속성 컨텍스트에 저장됨
+     * 즉 영속화된 엔티티들을 모두 비워 (em.clear()) 줘야만 개발 모드와 동일한 환경으로 테스트할 수 있음
+     * 영속성 컨텍스트 1차 캐시에 연관된 엔티티가 존재한다면, Lazy 로딩 전략은 쿼리 생성 및 실행하지 않음
+     */
+    @WithUserDetails(value = "ssar", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+    @Test
+    void deleteAccount_test() throws Exception {
+        // given
+        Long number = 1111L;
+
+        // when
+        ResultActions resultActions = mvc.perform(delete("/api/s/account/" + number));
+        String responseBody = resultActions.andReturn().getResponse().getContentAsString();
+        System.out.println("responseBody = " + responseBody);
+
+        // then
+        // Junit 테스트에서 DB 관련 (DML) 동작 중 delete 쿼리가 가장 마지막에 실행되면 쿼리 날라가지 않음
+        // 아래처럼 findByNumber를 호출하면 delete와 select 쿼리가 순차적으로 발생
+        assertThrows(CustomApiException.class, () -> accountRepository.findByNumber(number).orElseThrow(
+                () -> new CustomApiException("계좌를 찾을 수 없습니다")
+        ));
+
     }
 }
