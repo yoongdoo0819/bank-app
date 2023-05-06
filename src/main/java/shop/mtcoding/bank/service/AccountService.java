@@ -121,6 +121,8 @@ public class AccountService {
             this.transaction = new TransactionDto(transaction);
         }
 
+        @Getter
+        @Setter
         public class TransactionDto {
             private Long id;
             private String gubun;
