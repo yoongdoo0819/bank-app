@@ -117,4 +117,20 @@ class AccountServiceTest extends DummyObject {
         // then
         assertThat(ssarAccount1.getBalance()).isEqualTo(1100L);
     }
+
+    @Test
+    void 계좌입금_test2() throws Exception {
+        // given
+        Account account = newMockAccount(1L, 1111L, 1000L, null);
+        Long amount = 100L;
+
+        // when
+        if (amount <= 0L) {
+            throw new CustomApiException("0원 이하의 금액을 입금할 수 없습니다");
+        }
+        account.deposit(amount);
+
+        // then
+        assertThat(account.getBalance()).isEqualTo(1100L);
+    }
 }
