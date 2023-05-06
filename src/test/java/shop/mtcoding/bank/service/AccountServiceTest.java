@@ -115,6 +115,6 @@ class AccountServiceTest extends DummyObject {
         System.out.println("ssarAccount1.getBalance() = " + ssarAccount1.getBalance());
 
         // then
-//        assertThat(ssarAccount1).isEqualTo()
+        assertThat(ssarAccount1.getBalance()).isEqualTo(1100L);
     }
 }
