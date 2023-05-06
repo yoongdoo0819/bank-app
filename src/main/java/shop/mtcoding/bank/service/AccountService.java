@@ -1,8 +1,6 @@
 package shop.mtcoding.bank.service;
 
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import shop.mtcoding.bank.domain.account.Account;
@@ -14,16 +12,13 @@ import shop.mtcoding.bank.domain.user.User;
 import shop.mtcoding.bank.domain.user.UserRepository;
 import shop.mtcoding.bank.dto.account.AccountReqDto.AccountDepositReqDto;
 import shop.mtcoding.bank.dto.account.AccountReqDto.AccountSaveReqDto;
-import shop.mtcoding.bank.dto.account.AccountRespDto.AccountWithdrawRespDto;
+import shop.mtcoding.bank.dto.account.AccountReqDto.AccountWithdrawReqDto;
 import shop.mtcoding.bank.dto.account.AccountRespDto.AccountDepositRespDto;
 import shop.mtcoding.bank.dto.account.AccountRespDto.AccountListRespDto;
 import shop.mtcoding.bank.dto.account.AccountRespDto.AccountSaveRespDto;
+import shop.mtcoding.bank.dto.account.AccountRespDto.AccountWithdrawRespDto;
 import shop.mtcoding.bank.handler.ex.CustomApiException;
 
-import javax.validation.constraints.Digits;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import java.util.List;
 import java.util.Optional;
 
@@ -150,23 +145,5 @@ public class AccountService {
         // DTO 반환
         return new AccountWithdrawRespDto(withdrawAccountPS, transactionPS);
     }
-
-    @Getter
-    @Setter
-    public static class AccountWithdrawReqDto {
-        @NotNull
-        @Digits(integer = 4, fraction = 4)
-        private Long number;
-        @NotNull
-        @Digits(integer = 4, fraction = 4)
-        private Long password;
-        @NotNull
-        private Long amount;
-        @NotEmpty
-        @Pattern(regexp = "WITHDRAW")
-        private String gubun;
-
-    }
-
 
 }

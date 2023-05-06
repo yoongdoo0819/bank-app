@@ -12,9 +12,9 @@ import shop.mtcoding.bank.dto.account.AccountReqDto.AccountSaveReqDto;
 import shop.mtcoding.bank.dto.account.AccountRespDto.AccountListRespDto;
 import shop.mtcoding.bank.dto.account.AccountRespDto.AccountSaveRespDto;
 import shop.mtcoding.bank.dto.account.AccountReqDto.AccountDepositReqDto;
+import shop.mtcoding.bank.dto.account.AccountReqDto.AccountWithdrawReqDto;
 import shop.mtcoding.bank.dto.account.AccountRespDto.AccountDepositRespDto;
 import shop.mtcoding.bank.dto.account.AccountRespDto.AccountWithdrawRespDto;
-import shop.mtcoding.bank.service.AccountService.AccountWithdrawReqDto;
 import shop.mtcoding.bank.service.AccountService;
 
 import javax.validation.Valid;
