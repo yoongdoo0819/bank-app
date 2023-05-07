@@ -20,7 +20,7 @@ public class TransactionService {
     private final TransactionRepository transactionRepository;
     private final AccountRepository accountRepository;
 
-    private TransactionListRespDto 입출금목록보기(Long userId, Long accountNumber, String gubun, int page) {
+    public TransactionListRespDto 입출금목록보기(Long userId, Long accountNumber, String gubun, int page) {
         Account accountPS = accountRepository.findByNumber(accountNumber).orElseThrow(
                 () -> new CustomApiException("해당 계좌를 찾을 수 없습니다")
         );
