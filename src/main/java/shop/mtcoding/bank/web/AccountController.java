@@ -39,17 +39,16 @@ public class AccountController {
 
     /**
      * findUserAccount 동일 사용자임을 확인하는 로직이 존재
-    @GetMapping("/s/account/{id}")
-    public ResponseEntity<?> findUserAccount(@PathVariable Long id, @AuthenticationPrincipal LoginUser loginUser) {
+     @GetMapping("/s/account/{id}") public ResponseEntity<?> findUserAccount(@PathVariable Long id, @AuthenticationPrincipal LoginUser loginUser) {
 
-        // 권한처리를 해야만 하기 때문에 아래 로직이 반드시 필요
-        if (id != loginUser.getUser().getId()) {
-            throw new CustomForbiddenException("권한이 없습니다");
-        }
+     // 권한처리를 해야만 하기 때문에 아래 로직이 반드시 필요
+     if (id != loginUser.getUser().getId()) {
+     throw new CustomForbiddenException("권한이 없습니다");
+     }
 
-        AccountListRespDto accountListRespDto = accountService.계좌목록보기_유저별(id);
-        return new ResponseEntity<>(new ResponseDto<>(1, "계좌목록보기_유저별 성공", accountListRespDto), HttpStatus.OK);
-    }
+     AccountListRespDto accountListRespDto = accountService.계좌목록보기_유저별(id);
+     return new ResponseEntity<>(new ResponseDto<>(1, "계좌목록보기_유저별 성공", accountListRespDto), HttpStatus.OK);
+     }
      */
 
     /**
@@ -86,5 +85,14 @@ public class AccountController {
                                              @AuthenticationPrincipal LoginUser loginUser) {
         AccountTransferRespDto accountTransferRespDto = accountService.계좌이체(accountTransferReqDto, loginUser.getUser().getId());
         return new ResponseEntity<>(new ResponseDto<>(1, "계좌 이체 완료", accountTransferRespDto), HttpStatus.CREATED);
+    }
+
+    @GetMapping("/s/account/{number}")
+    public ResponseEntity<?> findDetailAccount(@PathVariable Long number,
+                                               @RequestParam(value = "page", defaultValue = "0") Integer page,
+                                               @AuthenticationPrincipal LoginUser loginUser) {
+
+        AccountDetailRespDto accountDetailRespDto = accountService.계좌상세보기(number, loginUser.getUser().getId(), page);
+        return new ResponseEntity<>(new ResponseDto<>(1, "계좌 상세 보기", accountDetailRespDto), HttpStatus.OK);
     }
 }
